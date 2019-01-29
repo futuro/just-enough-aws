@@ -1,3 +1,7 @@
 {:deps {com.cognitect.aws/api       {:mvn/version "0.8.223"}
         com.cognitect.aws/endpoints {:mvn/version "1.1.11.481"}
-        com.cognitect.aws/s3        {:mvn/version "697.2.391.0"}}}
+        com.cognitect.aws/s3        {:mvn/version "697.2.391.0"}
+        org.clojure/clojure {:mvn/version "RELEASE"}}
+ :aliases
+ {:rebl {:extra-deps {org.clojure/core.async {:mvn/version "0.4.490"}
+                      com.cognitect/rebl {:local/root "/home/futuro/devel/clojure/REBL/REBL-0.9.109.jar"}}}}}
