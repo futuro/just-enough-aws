@@ -14,3 +14,10 @@ Your `~/.aws/credentials` file has to have your access key and secret key specif
 3. How to upload a object (slurp a page/image from the web and convert to byte array)
 4. How to make that object world-readable
 5. How to show the url for that object
+
+* Make a function that takes an operation keyword and returns its slurped
+  documentation website contents. This is so the REBL can display them in the
+  view pane. Maybe build that during the demo?
+* One difference between `aws/doc` and just reading the doc string in REBL is
+  that the doc command will print out the request body, required keys, and the
+  return body type.
