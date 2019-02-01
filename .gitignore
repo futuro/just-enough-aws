@@ -1,1 +1,6 @@
 .cpcache/
+.nrepl-port
+.rebl
+
+# All of our sweet, sweet secrets
+credentials.edn
