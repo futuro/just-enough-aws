@@ -3,24 +3,49 @@
             [cognitect.aws.client.api :as aws]
             [cognitect.aws.credentials :as credentials]))
 
-(def region (-> "config.edn" slurp edn/read-string :aws :region))
-(def demo-creds (-> "credentials.edn" slurp edn/read-string))
+;; Exploration
 
-(def iam-orchestrator (-> demo-creds :aws :iam))
-;; (def s3-creds (:s3 demo-creds))
-;; (def iam-creds (:iam demo-creds))
+(defn list-groups
+  [client]
+  (aws/invoke client {:op :ListGroups}))
 
-(defn config
-  "Given a region as a string, and an opts map with `:access-key-id` and
-  `:secret-access-key` values defined, return a credentials-laden map for use
-  with creating a client."
-  [{:keys [region creds]}]
-  {:region               region
-   :credentials-provider (credentials/basic-credentials-provider creds)})
+(defn list-group-names
+  [client]
+  (->> (list-groups client)
+       :Groups
+       (map :GroupName)))
 
-(defn iam-client
-  [config]
-  (aws/client
-   (merge {:api :s3} config)))
+(defn list-users
+  [client]
+  (aws/invoke client {:op :ListUsers}))
 
-;; (def s3 (s3-client))
+(defn users-groups
+  [client username]
+  (aws/invoke client {:op      :ListGroupsForUser
+                      :request {:UserName username}}))
+
+(defn users-keys
+  [client username]
+  (aws/invoke client {:op      :ListAccessKeys
+                      :request {:UserName username}}))
+
+;; Creation
+
+(defn create-access-key!
+  [client username]
+  (aws/invoke client {:op      :CreateAccessKey
+                      :request {:UserName username}}))
+
+(defn create-user!
+  [client username]
+  ;; XXX all AWS props are PascalCased, but the Clojure library specific
+  ;; keywords are lowercased
+  (aws/invoke client {:op      :CreateUser
+                      :request {:UserName username}}))
+
+
+(defn join-group!
+  [client username groupname]
+  (aws/invoke client {:op      :AddUserToGroup
+                      :request {:UserName  username
+                                :GroupName groupname}}))
