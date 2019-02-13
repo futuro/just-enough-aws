@@ -23,3 +23,6 @@
   3. Show how to see the ops for a client (Maybe this happens in step 1?)
   4. Show the docs for an op
      1. Show off REBL showing off the docs
+  5. Create a bucket
+  6. Add something to it from the repl
+  7. Fetch a URL for that said something, and let people check it out

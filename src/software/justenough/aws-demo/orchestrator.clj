@@ -65,4 +65,15 @@
 
   ;; Primo! Let's try listing those buckets again!
   (s3/list-buckets s3-client)
+
+  ;; TODO Let's make a bucket!
+
+  ;; TODO Let's add something to it, something from the web!
+
+  ;; TODO Ok, let's find that URL
+
+  ;; XXX I don't currently know of a way to generate a pre-signed URL for an S3
+  ;; object
+  ;;
+  ;; See: https://github.com/cognitect-labs/aws-api/issues/5
   )
