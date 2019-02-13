@@ -2,14 +2,14 @@
   (:require [cognitect.aws.client.api :as aws]
             [cognitect.aws.credentials :as credentials]
             [clojure.edn :as edn]
-            [software.justenough.aws-demo.iam :as iam]))
+            [software.justenough.aws-demo.iam :as iam]
+            [software.justenough.aws-demo.s3 :as s3]))
 
 (def region (-> "config.edn" slurp edn/read-string :aws :region))
-(def demo-creds (-> "credentials.edn" slurp edn/read-string))
+(def demo-creds (-> "credentials.edn" slurp edn/read-string :aws))
 
-(def admin (-> demo-creds :aws :iam))
-;; (def s3-creds (:s3 demo-creds))
-;; (def iam-creds (:iam demo-creds))
+(def iam-creds (:iam demo-creds))
+(def s3-creds (:s3 demo-creds))
 
 (defn config
   "Given a region as a string, and an opts map with `:access-key-id` and
@@ -38,7 +38,7 @@
   (aws/doc iam-client :ListGroups)
 
   ;; Let's make our S3 user!
-  (def s3-username "TODO FILL ME IN")
+  (def s3-username "test-s3-admin")
   (def demo-s3-admin (iam/create-user! iam-client s3-username))
 
   ;; Buuuut...we don't have any access keys!
@@ -48,10 +48,21 @@
                  {:access-key-id     (get-in s3-keys [:AccessKey :AccessKeyId])
                   :secret-access-key (get-in s3-keys [:AccessKey :SecretAccessKey])}))
   ;; Finally creating our S3 client with our new user
-  (def s3-client client {:api                  :s3
-                         :region               region
-                         :credentials-provider s3-creds})
+  (def s3-client (client {:api                 :s3
+                          :region               region
+                          :credentials-provider s3-creds}))
 
   ;; Let's make a bucket!
-  ()
+  (s3/list-buckets s3-client)
+
+  ;; Oh yeah, we need the right perms!
+  (iam/list-group-names iam-client)
+
+  ;; I guess `s3-admins` sounds right
+  (iam/join-group! iam-client s3-username "s3-admins")
+  ;; Let's see if that worked
+  (iam/users-groups iam-client s3-username)
+
+  ;; Primo! Let's try listing those buckets again!
+  (s3/list-buckets s3-client)
   )
