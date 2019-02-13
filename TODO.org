@@ -1,0 +1,25 @@
+* Tasks
+** DONE Create demo IAM role
+   CLOSED: [2019-01-31 Thu 23:02]
+** DONE Put credentials in a ~.gitignore~d file
+   CLOSED: [2019-01-31 Thu 23:02]
+** DONE Wire that up with some credentials
+   CLOSED: [2019-01-31 Thu 23:02]
+** TODO 
+
+* Presentation Outline
+  The goal of this presentation is that it should be "just enough" software to
+  work with the AWS library.
+
+  I would also like to show a couple more complex interactions than just using
+  S3, to give a sense of working across different services. So here's a thought.
+
+  1. Show how setting a client works with your current AWS setup, looking at
+     =~/.aws/config= and =~/.aws/credentials=
+     a. This could be an "admin" IAM cred
+     b. Create a new S3 IAM user
+  2. Show how it works when you explicitly set the credentials
+     a. With the S3 IAM user just created
+  3. Show how to see the ops for a client (Maybe this happens in step 1?)
+  4. Show the docs for an op
+     1. Show off REBL showing off the docs
