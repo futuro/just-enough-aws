@@ -4,6 +4,7 @@
         com.cognitect.aws/s3        {:mvn/version "697.2.391.0"}
         com.cognitect.aws/iam       {:mvn/version "697.2.391.0"}
         org.clojure/clojure         {:mvn/version "RELEASE"}}
+ :paths ["src"]
  :aliases
  {:rebl {:extra-deps {org.clojure/core.async {:mvn/version "0.4.490"}
                       com.cognitect/rebl     {:local/root "/home/futuro/devel/clojure/REBL/REBL-0.9.109.jar"}}}}}
